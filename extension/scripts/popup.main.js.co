@@ -1,0 +1,4 @@
+(akarin) <- require [\akarin]
+akarin.poke!
+<- setTimeout
+window.close!

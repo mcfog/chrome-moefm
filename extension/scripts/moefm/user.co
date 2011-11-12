@@ -1,0 +1,17 @@
+($)<- define [\jquery]
+new
+    user = @
+    @is_login = ->
+        flag = null
+        $.ajax do
+            url:'http://moe.fm/listen/playlist'
+            async: false
+        .success (rst)->
+            flag := $.isArray rst
+        flag
+    @do_login = ->
+        window.open('http://moe.fm/login?no_invitation=1', '_blank', 'width=750,height=400,left=0,top=0')
+    @req_login = ->
+        if ! user.is_login!
+            user.do_login!
+#EOF

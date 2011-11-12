@@ -1,0 +1,12 @@
+(player) <- require [\moefm/player]
+window.poke = ->
+    me = @@callee
+    if me._tout
+        clearTimeout me._tout
+        delete me._tout
+        player.stop!
+        return
+    me._tout = setTimeout ->
+        delete me._tout
+        player.skip!
+    , 1000

@@ -1,0 +1,28 @@
+<- define []
+new
+    colors = do
+        red:[255, 0, 0, 255]
+        green:[0, 255, 0, 255]
+        blue:[0, 0, 255, 255]
+        yellow:[235, 235, 0, 255]
+        orange:[255, 128, 0, 255]
+    parseColor = (clr, alpha)->
+        r=[]
+        for i from 1 to 5 by 2
+            k = clr.substr i, 2
+            r.push parseInt('0x'+k)
+        r.push a||255
+        r
+    @badge = (text, clr)->
+        if !(clr instanceof Array)
+            clr = colors[clr] || parseColor(clr);
+        if clr
+            chrome.browserAction.setBadgeBackgroundColor do
+                color:clr
+        if !clr
+            clr = @@callee.last.1
+
+        chrome.browserAction.setBadgeText do
+            text:text
+        @@callee.last = [text, clr]
+

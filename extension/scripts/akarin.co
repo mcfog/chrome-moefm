@@ -1,0 +1,5 @@
+console.log 'Akariiiin~~'
+BG = chrome.extension.getBackgroundPage!
+define do
+    poke : ->
+        BG.poke!

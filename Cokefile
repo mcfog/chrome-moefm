@@ -1,0 +1,85 @@
+{spawn} = require \child_process
+
+SHELL = if(\win32 == process.platform) then "cmd /c " else "sh -c "
+	
+output = (error, stdout, stderr)->
+	if (error)
+		console.error stderr.trim!
+	else
+		console.log stdout.trim!
+	void
+
+StreamReader = class
+	(stream, encoding = \ascii, cb)->
+		buffer = ''
+		consumeLine = ->
+			lines = buffer.split \\n
+			while lines.length>1
+				cb lines.shift!
+		stream.setEncoding encoding
+		(data) <- stream.on \data
+		buffer := buffer + data
+		consumeLine!
+		void
+
+run = (cmd, con, ..., after)->
+	if(con === after)
+		con = console
+	con?.log? \> + cmd
+
+	[cmd,...args] = (SHELL+cmd).split(' ')
+	p = spawn cmd, args
+	#console.log p.pid,cmd,args
+	new StreamReader p.stdout, \ascii, (line)->
+		con?.log? line
+	new StreamReader p.stderr, \ascii, (line)->
+		con?.error? line
+
+	p.on 'exit', ->
+		after?!
+
+	p.stdin.end!
+
+walkdir = (dirpath, filecb, cb) ->
+	buildlist = [dirpath]
+			
+	next = ->
+		path= buildlist.pop()
+		if !path
+			return cb!
+		try
+			for file of dir path
+				buildlist.push path + '/' + file
+			next!
+		catch e
+			filecb path, next
+		void
+	next!
+
+### Main ###
+#java -jar yuicompressor-2.4.6.jar -o build\a extensio
+task \clean, 'clean the build directory' , (options)->
+	run "rm -r ./build"
+
+task \compile, 'compile .co files' , (options)->
+	<- run "cp -r ./extension ./build"
+	<- walkdir 'build/scripts', (path, next)->
+		if /\.co$/test path
+			<- run "coco -c " + path
+			<- run "rm " + path
+			next?!
+		else
+			next?!
+	console.log \done.
+	
+task \build, 'clean, compile, and compress' , (options)->
+	<- run "coke clean"
+	<- run "coke compile"
+	<- walkdir 'build/scripts', (path, next)->
+		if /\.js$/test path
+			<- run ("java -jar yuicompressor-2.4.6.jar -o <OUT> <IN>"
+					.replace \<OUT>, path
+					.replace \<IN>, path)
+			next?!
+		else
+			next?!

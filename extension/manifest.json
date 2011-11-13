@@ -4,7 +4,7 @@
 	"verno"				: "0",
 	"description"		: "Moe.fm 萌否电台",
 	"icons": {
-	  "128": "images/moefou_box_smile.png"
+	  "128": "images/moefou.png"
 	},
 	"__options_page"		: "options.html",
 	"background_page"	: "background.html",
@@ -20,5 +20,5 @@
 		"popup" : "popup.html"
 	},
 	
-	"permissions" : [ "unlimited_storage", "*://moe.fm/*", "*://*.moefou.org/*" ]
+	"permissions" : [ "unlimited_storage", "*://moe.fm/*", "*://*.moefou.org/*", "*://moefou.org/*" ]
 }

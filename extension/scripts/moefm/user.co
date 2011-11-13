@@ -10,7 +10,8 @@ new
             flag := $.isArray rst
         flag
     @do_login = ->
-        window.open('http://moe.fm/login?no_invitation=1', '_blank', 'width=750,height=400,left=0,top=0')
+        window.open (chrome.extension.getURL 'login.html'), \com.mcfog.chrome.mmf.login, 'noresize=1,width=240,height=65,top=0,left=0'
+        void
     @req_login = ->
         if ! user.is_login!
             user.do_login!

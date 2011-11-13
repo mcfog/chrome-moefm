@@ -13,9 +13,9 @@ new
         void
 
     getNextSong = ~>
-        @song = mgr.next!
-        chrome.browserAction.setTitle do
-            title: [@song.title, decodeURIComponent @song.wiki_title].join('\n')
+        if @song = mgr.next!
+            chrome.browserAction.setTitle do
+                title: [@song.title, decodeURIComponent @song.wiki_title].join('\n')
         @song
 
     @play = ~>

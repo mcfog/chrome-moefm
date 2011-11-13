@@ -8,11 +8,17 @@
 	},
 	"__options_page"		: "options.html",
 	"background_page"	: "background.html",
-	"content_scripts"	: [],
+	"content_scripts"	: [{
+		"all_frames"	: true,
+		"js"				: [ "scripts/require.js", "scripts/inject/login.js" ],
+		"matches"		: [ "http://moe.fm/login?no_invitation=1&mmf_inject=1" ],
+		"run_at"		: "document_idle"
+	}],
 
 	"browser_action"	: {
 		"default_icon" : "images/radio.png",
 		"popup" : "popup.html"
 	},
+	
 	"permissions" : [ "unlimited_storage", "*://moe.fm/*", "*://*.moefou.org/*" ]
 }

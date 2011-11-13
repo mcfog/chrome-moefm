@@ -1,0 +1,33 @@
+c_eval = (source) ->
+    if \function == typeof source
+        source = '(' + source + ')();'
+    script = document.createElement \script
+    script.setAttribute \type, \application/javascript
+    script.textContent = source
+    document.body.appendChild script
+    document.body.removeChild script
+    void
+
+request = (action, data, cb)->
+    if @@.length == 2
+        [cb, data] = [data, {}]
+    chrome.extension.sendRequest({action, data}, cb)
+
+(S)<- request 'eval', ""+(BG)->
+    return BG.localStorage
+
+window.onunload = ->
+    console.log \CLOSE
+    window.close!
+$ = document.~getElementById
+$ \login_account .value = S.username
+$ \login_password .value = S.password
+form = document.querySelectorAll '#content form' .0
+h = document.createElement \INPUT
+h.type = \hidden
+h.name = \submit
+h.value = 'from mmf'
+form.appendChild h
+
+HTMLFormElement.prototype.submit.call form
+

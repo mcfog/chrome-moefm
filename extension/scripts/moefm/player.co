@@ -56,7 +56,11 @@ new
         else
             @$audio.0.play!
         void
-    
+
+    @setVolumn = (v) ~>
+        @$audio?.volume = v
+        void
+
     @skip = ~>
         if !@$audio
             @play!
@@ -70,12 +74,12 @@ new
     setTimeout ~>
         text = ''
         if @playing
-            tdiff = @song.stream_length - (Date.now! - @$audio.data \begin) / 1000
+            tdiff = @song.stream_length - @$audio.0.currentTime
             if tdiff < 60
                 text = (parseInt tdiff)+''
             else
                 text = (parseInt tdiff/60) + 'm'
-        u.badge text, \blue
+        u.badge text, \blue if text
         setTimeout @@callee, 1000
     , 1000
 #EOF

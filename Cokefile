@@ -1,7 +1,7 @@
 {spawn} = require \child_process
 
 SHELL = if(\win32 == process.platform) then "cmd /c " else "sh -c "
-	
+
 output = (error, stdout, stderr)->
 	if (error)
 		console.error stderr.trim!
@@ -42,7 +42,7 @@ run = (cmd, con, ..., after)->
 
 walkdir = (dirpath, filecb, cb) ->
 	buildlist = [dirpath]
-			
+
 	next = ->
 		path= buildlist.pop()
 		if !path
@@ -62,6 +62,7 @@ task \clean, 'clean the build directory' , (options)->
 	run "rm -r ./build"
 
 task \compile, 'compile .co files' , (options)->
+	<- run "coke clean"
 	<- run "cp -r ./extension ./build"
 	<- walkdir 'build/scripts', (path, next)->
 		if /\.co$/test path
@@ -71,9 +72,8 @@ task \compile, 'compile .co files' , (options)->
 		else
 			next?!
 	console.log \done.
-	
+
 task \build, 'clean, compile, and compress' , (options)->
-	<- run "coke clean"
 	<- run "coke compile"
 	<- walkdir 'build/scripts', (path, next)->
 		if /\.js$/test path

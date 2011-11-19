@@ -1,3 +1,6 @@
+body {
+    overflow:hidden;
+}
 .input_tip {
 	color:silver;
 	font-family:mono;

@@ -1,6 +1,6 @@
 {
 	"name"				: "Mcfog's Moe.Fm",
-	"version"			: "0.1.2000",
+	"version"			: "0.1.3000",
 	"verno"				: "0",
 	"description"		: "Moe.fm 萌否电台",
 	"icons": {
@@ -20,5 +20,6 @@
 		"popup" : "popup.html"
 	},
 	
-	"permissions" : [ "unlimited_storage", "*://moe.fm/*", "*://*.moefou.org/*", "*://moefou.org/*" ]
+	"permissions" : [ "unlimited_storage", "background", 
+		"*://moe.fm/*", "*://*.moefou.org/*", "*://moefou.org/*" ]
 }

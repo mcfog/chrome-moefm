@@ -10,7 +10,7 @@ window.poke = ->
         delete me._tout
         player.skip!
     , 1000
-    
+
 (request, sender, sendResponse)<- chrome.extension.onRequest.addListener
 console.log @@
 switch request.action

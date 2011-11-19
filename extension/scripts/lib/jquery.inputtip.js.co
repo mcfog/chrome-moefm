@@ -1,0 +1,25 @@
+
+$.fn.inputTip = (msg)->
+    @each ->
+        if @tagName != 'INPUT' || ! @type in {text:1,password:1}
+            return
+        if $.data(@, 'input-tip_flag')
+            return
+        $t = $ @
+        text = msg || $t.data \input-tip || ''
+        $d = $ '<div>' .html text .css do
+            width:$t.outerWidth!
+            height:$t.outerHeight!
+            position:\absolute
+        .css $t.position! .addClass \input_tip .insertAfter $t
+        .click ->
+            $t.focus!
+            void
+        $t.focus ->
+            $d.stop true,true .fadeOut \fast
+        .blur ->
+            if ! $t.val!
+                $d.stop true,true .fadeIn!
+            void
+        
+        $d.hide! if $t.val!

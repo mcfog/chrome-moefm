@@ -4,10 +4,11 @@ new
     @is_login = ->
         flag = null
         $.ajax do
-            url:'http://moe.fm/listen/playlist'
+            url:'http://moe.fm/listen'
+            dataType:\text
             async: false
         .success (rst)->
-            flag := $.isArray rst
+            flag := -1 !== rst.indexOf 'flowplayer'
         flag
     @do_login = ->
         window.open (chrome.extension.getURL 'login.html'), \com.mcfog.chrome.mmf.login, 'noresize=1,width=240,height=65,top=0,left=0'

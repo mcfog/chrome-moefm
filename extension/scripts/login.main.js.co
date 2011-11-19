@@ -1,31 +1,6 @@
-($) <- require [\jquery, \lib/jquery.sjtp.min]
-
-$.fn.inputTip = (msg)->
-    @each ->
-        if @tagName != 'INPUT' || ! @type in {text:1,password:1}
-            return
-        if $.data(@, 'input-tip_flag')
-            return
-        $t = $ @
-        text = msg || $t.data \input-tip || ''
-        $d = $ '<div>' .html text .css do
-            width:$t.outerWidth!
-            height:$t.outerHeight!
-            position:\absolute
-        .css $t.position! .addClass \input_tip .insertAfter $t
-        .click ->
-            $t.focus!
-            void
-        $t.focus ->
-            $d.stop true,true .fadeOut \fast
-        .blur ->
-            if ! $t.val!
-                $d.stop true,true .fadeIn!
-            void
-        
-        $d.hide! if $t.val!            
-### Main ###
+($) <- require [\jquery, \lib/jquery.sjtp.min, \lib/jquery.inputtip]
 <- $
+
 $ document.body .render ($ \#main_tpl), {}
 
 $form = $ 'form.login'
@@ -51,11 +26,14 @@ $form .one \submit, ->
             $form .one \submit,me
         else
             localStorage{username, password} = {username, password}
-            
+
             t=2
             $ '<iframe>',
                 src:'http://moe.fm/login?no_invitation=1&mmf_inject=1'
-            .appendTo document.body
+            .appendTo document.body .css do
+                position: \absolute
+                top:100000
+                left:100000
             .load ->
                 t:=t-1
                 if t<=0

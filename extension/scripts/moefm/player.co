@@ -1,8 +1,8 @@
-
-($, playlist, u)<- define [\jquery, \moefm/playlist, \mc/util]
+($, PLIST, USER, U)<- define [\jquery, \moefm/playlist, \moefm/user, \mc/util]
 new
-    mgr = new playlist.Manager playlist.random
-    player = @
+    @mgr = new PLIST.Manager PLIST.random
+    PLAYER = @
+    is_login = false
     
     @$audio = @song = null
     @playing = false
@@ -13,14 +13,21 @@ new
         void
 
     getNextSong = ~>
-        if @song = mgr.next!
+        if !is_login
+            is_login := USER.is_login!
+            if !is_login
+                USER.do_login!
+                return @song = false
+
+        if @song = @mgr.next!
             chrome.browserAction.setTitle do
                 title: [@song.title, decodeURIComponent @song.wiki_title].join('\n')
         @song
 
     @play = ~>
         @stop!
-        song = getNextSong!
+        song = getNextSong!
+        return if !song
         @$audio := $ '<audio>',
             src: song.url,
             controls: false,
@@ -31,19 +38,19 @@ new
         .bind \pause, ~>
             @playing = false
             void
-        .bind 'ended emptied', ~>
+        .bind 'ended', ~>
             $.get 'http://moe.fm/ajax/log', 
                 log_obj_type:'sub'
                 log_type:'listen'
                 obj_type:'song'
                 obj_id:@song.sub_id
-            @skip!
-            void                
+            @skip!
+            void
         .bind \loadstart, ~>
-            u.badge '>_<', \orange
+            U.badge '>_<', \orange
             void
         .bind \canplay, ~>
-            u.badge '^_^', \blue
+            U.badge '^_^', \blue
             void
         .data \begin, Date.now!
         void
@@ -65,7 +72,8 @@ new
         if !@$audio
             @play!
             return
-        song = getNextSong!
+        song = getNextSong!
+        return if !song
         @$audio?.attr do
             src:song.url
         .data \begin, Date.now!
@@ -79,7 +87,8 @@ new
                 text = (parseInt tdiff)+''
             else
                 text = (parseInt tdiff/60) + 'm'
-        u.badge text, \blue if text
+        U.badge text, \blue if text
         setTimeout @@callee, 1000
     , 1000
-#EOF
+#EOF
+

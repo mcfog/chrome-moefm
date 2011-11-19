@@ -27,7 +27,7 @@
       				<input type="text" name="username" data-input-tip="用户名" tabindex=1 <<if localStorage.username>> value="<<:localStorage.username>>"<</if>>/>
       			</div>
       			<div class="pr fl">
-      				<input type="password" name="password" data-input-tip="密码" tabindex=2 />
+      				<input type="password" name="password" data-input-tip="密码" tabindex=2 <<if localStorage.password>> value="<<:localStorage.password>>"<</if>> />
       			</div>
 	      		<input type="submit" value="登  录" class="submit" tabindex="-1" />
       		</form>

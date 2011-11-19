@@ -1,0 +1,6 @@
+BG = chrome.extension.getBackgroundPage!
+action = do
+    skip:BG.player.~skip
+    stop:BG.player.~stop
+define action
+

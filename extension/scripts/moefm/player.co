@@ -7,6 +7,7 @@ new
     @$audio = @song = null
     @playing = false
     @stop = ~>
+        U.badge '', \red
         @$audio?.remove!
         @$audio = null
         @playing = false
@@ -28,6 +29,7 @@ new
         @stop!
         song = getNextSong!
         return if !song
+        U.badge '>_<', \yellow
         @$audio := $ '<audio>',
             src: song.url,
             controls: false,
@@ -36,9 +38,10 @@ new
             @playing = true
             void
         .bind \pause, ~>
-            @playing = false
-            void
-        .bind 'ended', ~>
+            U.badge '', \red
+            @playing = false
+            void
+        .bind \ended, ~>
             $.get 'http://moe.fm/ajax/log', 
                 log_obj_type:'sub'
                 log_type:'listen'
@@ -46,11 +49,10 @@ new
                 obj_id:@song.sub_id
             @skip!
             void
+        .bind \emptied, ~>
+            U.badge '', \red
         .bind \loadstart, ~>
             U.badge '>_<', \orange
-            void
-        .bind \canplay, ~>
-            U.badge '^_^', \blue
             void
         .data \begin, Date.now!
         void
@@ -80,14 +82,14 @@ new
         void
     
     setTimeout ~>
-        text = ''
+        text = false
         if @playing
             tdiff = @song.stream_length - @$audio.0.currentTime
             if tdiff < 60
                 text = (parseInt tdiff)+''
             else
                 text = (parseInt tdiff/60) + 'm'
-        U.badge text, \blue if text
+        U.badge text, \blue if text !== false
         setTimeout @@callee, 1000
     , 1000
 #EOF

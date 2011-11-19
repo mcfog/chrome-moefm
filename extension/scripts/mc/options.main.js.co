@@ -1,0 +1,22 @@
+($, OPTIONS, TPL) <- (require.config {'baseUrl':'/scripts/'}) [\jquery \data/options \text!mc/options.tpl.html \lib/jquery.sjtp.min]
+<- $
+BG = chrome.extension.getBackgroundPage!
+S = localStorage
+options = []
+for o of OPTIONS
+    [type,name,desc,data] = o
+    options.push {type,name,desc,data}
+notice = (msg)->
+    msg = 'Saved.' if !msg
+    $ '#notice' .text msg .show!
+    clearTimeout ($ '#notice').0.hideTO
+    ($ '#notice').0.hideTO = setTimeout ->
+        $('#notice').fadeOut('normal')
+        void
+    , 3000
+
+$ document.body .render TPL, {options, S}
+    .delegate ':input', \change, ->
+        $t = $ @
+        S[$t.attr \name] = $t.val!
+        notice!

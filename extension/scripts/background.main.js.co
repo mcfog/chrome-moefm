@@ -1,18 +1,18 @@
 (window.player) <- require [\moefm/player]
-window.poke = ->
-    me = @@callee
-    if me._tout
-        clearTimeout me._tout
-        delete me._tout
-        player.stop!
-        return
-    me._tout = setTimeout ->
-        delete me._tout
-        player.skip!
-    , 1000
+S = localStorage
+
+if 0 !== S.action_click.indexOf('pop_')
+    chrome.browserAction.setPopup do
+        popup: ''
+    chrome.browserAction.onClicked.addListener ->
+        require [\akarin], (akarin)->
+            akarin.poke!
+else
+    chrome.browserAction.setPopup do
+        popup: 'popup.html'
+
 
 (request, sender, sendResponse)<- chrome.extension.onRequest.addListener
-console.log @@
 switch request.action
 case 'eval'
     fn = eval('('+request.data+')')

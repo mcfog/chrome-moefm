@@ -1,4 +1,3 @@
-(akarin) <- require [\akarin]
-akarin.poke!
-<- setTimeout
-window.close!
+(momoko) <- require [\momoko]
+momoko.poke!
+

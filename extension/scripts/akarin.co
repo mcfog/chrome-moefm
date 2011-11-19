@@ -1,5 +1,19 @@
+(action)<- defind [\_actions], ->
 console.log 'Akariiiin~~'
 BG = chrome.extension.getBackgroundPage!
-define do
-    poke : ->
-        BG.poke!
+S = localStorage
+poke = ->
+    me = @@callee
+    if me._tout
+        clearTimeout me._tout
+        delete me._tout
+        action[S.action_dblclick||'skip']!
+        return
+    me._tout = setTimeout ->
+        delete me._tout
+        if 0!==S.action_click.indexOf 'pop_'
+            action[S.action_click||'stop']!
+    , 500
+
+{poke}
+

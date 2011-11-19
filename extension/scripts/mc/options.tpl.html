@@ -1,0 +1,23 @@
+<form class="options"><table>
+[[loop options O]]
+<tr class="field">
+[[if O.type == 'ele']]
+
+<td colspan=2><[[:O.name]]>[[:O.desc]]</[[:O.name]]></td>
+[[elif O.type == 'select']]
+<td class="desc">[[:O.desc]]</td>
+<td>
+    <select name="[[:O.name]]">
+        <option value="" style="color:gray">---请选择---</option>
+        [[loop O.data val name]]
+        <option value="[[:val]]"[[if S[O.name]==val]] selected[[/if]]>[[:name]]</option>
+        [[/loop]]
+    </select>
+</td>
+
+[[/if]]
+</tr>
+[[/loop]]
+</table></form>
+<button onclick="chrome.extension.getBackgroundPage().location.reload();location.reload();">重新载入</button>
+<div id="notice"></div>

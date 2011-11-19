@@ -7,27 +7,27 @@
   		<link rel="stylesheet" href="styles/login.css" />
       <script data-main="scripts/login.main" src="scripts/require-jquery.js"></script>
       <script type="text/x-sjtp" id="main_tpl">
-      	<<~
+      	[[~
       		var $CTN = $(this);
       		setTimeout(function() {
       			$CTN.find('input[data-input-tip]').inputTip();
       		});
-      	>>
+      	]]
       	<div id="main">
       		<div class="info">
-      			<<if localStorage.username>>
-      				您目前登录为<<:localStorage.username>>，
+      			[[if localStorage.username]]
+      				您目前登录为[[:localStorage.username]]，
       				<a href="javascript:void(0)" onclick="localStorage.username=localStorage.password=false;location.reload()">注销</a>
-      			<<else>>
+      			[[else]]
       				<strong>请登录</strong>
-      			<</if>>
+      			[[/if]]
       		</div>
       		<form class="login" onsubmit="return false">
       			<div class="pr fl">
-      				<input type="text" name="username" data-input-tip="用户名" tabindex=1 <<if localStorage.username>> value="<<:localStorage.username>>"<</if>>/>
+      				<input type="text" name="username" data-input-tip="用户名" tabindex=1 [[if localStorage.username]] value="[[:localStorage.username]]"[[/if]]/>
       			</div>
       			<div class="pr fl">
-      				<input type="password" name="password" data-input-tip="密码" tabindex=2 <<if localStorage.password>> value="<<:localStorage.password>>"<</if>> />
+      				<input type="password" name="password" data-input-tip="密码" tabindex=2 [[if localStorage.password]] value="[[:localStorage.password]]"[[/if]] />
       			</div>
 	      		<input type="submit" value="登  录" class="submit" tabindex="-1" />
       		</form>

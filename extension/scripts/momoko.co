@@ -1,0 +1,21 @@
+(action)<- define [\_actions]
+console.debug 'Stealth mode on'
+BG = chrome.extension.getBackgroundPage!
+S = localStorage
+poke = ->
+    bb = BG.@black_board.@momoko
+    views = chrome.extension.getViews do
+        type: \popup
+    pop = views.0
+    if bb._tout
+        clearTimeout bb._tout
+        delete bb._tout
+        pop.close!
+        action[S.action_dblclick||'skip']!
+        return
+    bb._tout = setTimeout ->
+        delete bb._tout
+        pop.location.href = S.action_click+'.html'
+    , 500
+{poke}
+

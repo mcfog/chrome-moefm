@@ -7,12 +7,12 @@ poke = ->
     if me._tout
         clearTimeout me._tout
         delete me._tout
-        action[S.action_dblclick||'skip']!
+        action[S.action_dblclick||'stop']!
         return
     me._tout = setTimeout ->
         delete me._tout
         if 0!==S.action_click.indexOf 'pop_'
-            action[S.action_click||'stop']!
+            action[S.action_click||'skip']!
     , 500
 
 {poke}

@@ -5,12 +5,16 @@
     [\select \action_dblclick "双击操作" do
         skip: "播放/下一曲"
         stop: "停止"
+        addFav: "收藏当前曲目"
+        trashSkip: "跳过并拉黑当前曲目"
         loli: "弹出精简控制台"
     ]
     [\select \action_click "单击操作<span class='weak'>重新载入后生效</span>" do
         pop_loli: "打开精简控制台"
         skip: "播放/下一曲"
         stop: "停止"
+        addFav: "收藏当前曲目"
+        trashSkip: "跳过并拉黑当前曲目"
         loli: "弹出精简控制台"
     ]
 ]

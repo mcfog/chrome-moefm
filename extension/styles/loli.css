@@ -1,0 +1,140 @@
+body {
+	width:190px;
+	height:160px;
+	overflow:hidden;
+}
+button {
+	position:relative;
+	z-index:auto;
+	opacity:0.8;
+	border:0;
+	border-radius:2px;
+	box-shadow:0 0 2px 2px #EEE;
+	width:54px;
+	height:54px;
+	background-color:transparent;
+	background-position:3px 3px;
+	background-repeat:no-repeat;
+	margin:4px;
+	cursor:pointer;	
+}
+button span {
+	display:none;
+	position:absolute;
+	z-index:20;
+	bottom:-40px;
+	left:-5px;
+	background:rgba(0,0,0,0.6);
+
+	color:white;
+	border-radius:4px;
+	width:65px;
+	padding:5px 0;
+	text-align:center;
+}
+button:hover span:before {
+	content: 'a';
+	color:transparent;
+	border-color: transparent transparent rgba(0,0,0,0.6);
+	border-style: solid;
+	border-width: 0 5px 10px;
+	position:absolute;
+	top:-10px;
+	left:29px;
+	height: 0;
+	width: 0;
+}
+
+button:hover {
+	box-shadow:0 0 3px 3px #777;
+	opacity:1.0;
+}
+button:hover span {
+	display:inline-block
+}
+
+button.play {
+	background-image:url(images/playback_play.png)
+}
+button.next {
+	background-image:url(images/playback_next.png)
+}
+button.stop {
+	background-image:url(images/playback_stop.png)
+}
+button.heart {
+	background-image:url(images/heart_empty.png)
+}
+button.heart.activated {
+	background-image:url(images/heart.png)
+}
+button.fav {
+	background-image:url(images/star_fav_empty.png)
+}
+button.fav.activated {
+	background-image:url(images/star_fav.png)
+}
+button.trash {
+	background-image:url(images/trash_empty.png)
+}
+button.trash.activated {
+	background-image:url(images/trash.png)
+}
+button.volume_high, button.volume_cycle {
+	background-image:url(images/sound_high.png)
+}
+button.volume_low {
+	background-image:url(images/sound_low.png)
+}
+button.info {
+	background-image:url(images/info.png)
+}
+.panel button {
+	float:left;
+}
+.playing {
+	clear:both;
+	position:relative;
+}
+.playing .cover {
+	position:absolute;
+	right:-6px;
+	bottom:2px;
+	max-height:36px;
+	max-width:36px;
+	border-radius: 5px;
+	box-shadow: 2px 2px rgba(200,200,200,0.7);
+}
+
+.playing p {
+	font-family:微软雅黑,helvetica;
+	overflow:hidden;
+	height:1.3em;
+	line-height:1.2em;
+	padding:0;margin:0;
+}
+.playing a {
+	text-decoration:none;
+	white-space: nowrap;
+}
+
+.progress {
+	position:absolute;
+	top:-8px;
+	left:-1px;
+	width:100%;
+	height:15px;
+	border-radius:3px;
+	background:#F7F7F7;
+}
+
+.progress>* {
+	position:absolute;
+	left:0;top:0;bottom:0;
+}
+.progress>.buffered {
+	background:#DDD;
+}
+.progress>.played {
+	background:#E00;
+}

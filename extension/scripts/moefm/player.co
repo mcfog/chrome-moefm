@@ -88,6 +88,13 @@ new
         current = @$audio.0.volume
         @$audio.0.volume = Math.max 0, current - v
         void
+    @volumeCycle = (v = 0.2) ~>
+        if !@$audio
+            return
+        v = @$audio.0.volume - v
+        v = 1 if v < 0
+        @$audio.0.volume = v
+        void
 
     @skip = ~>
         if !@$audio
@@ -99,6 +106,23 @@ new
             src:song.url
         .data \begin, Date.now!
         void
+
+    @favSong = (fav_type, del = 0)~>
+        obj_id = @song.sub_id
+        obj_type = \song
+        data = {fav_type, obj_id, obj_type, 'delete':del}
+        postData = {}
+        for k in data
+            postData['fav_data['+k+']'] = data[k]
+        $.post 'http://moe.fm/ajax/fav', postData, (o)~>
+            if !o.status
+                return
+            if @song.sub_id == obj_id
+                if del
+                    @song.fav_sub = null
+                else
+                    @song.fav_sub = {fav_type, obj_id, obj_type}
+        , 'json'
 
     setTimeout ~>
         text = false

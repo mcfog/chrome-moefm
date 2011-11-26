@@ -1,5 +1,7 @@
 ($) <- require [\jquery \lib/jquery.sjtp.min]
 BG = chrome.extension.getBackgroundPage!
+w.close! if w != window && w.name=='com.mcfog.chrome.mmf.loli' for w of chrome.extension.getViews!
+
 newSong = (song)->
     if !song
         return
@@ -19,8 +21,10 @@ setTimeout ->
         return
     aud = BG.player.$audio.0
     {duration, buffered, played} = aud
-    $buffered.width ((100 * (buffered.end 0) / duration)toFixed 1) + \%
-    $played.width ((100 * (played.end 0) / duration)toFixed 1) + \%
+    if buffered.length>0
+        $buffered.width ((100 * (buffered.end 0) / duration)toFixed 1) + \%
+    if played.length>0
+        $played.width ((100 * (played.end 0) / duration)toFixed 1) + \%
 ,1000
 
 $ document.body .delegate 'button.next', \click, ->
@@ -33,4 +37,33 @@ $ document.body .delegate 'button.next', \click, ->
     BG.player.volumeDown!
 .delegate 'button.volume_high', \click, ->
     BG.player.volumeUp!
+.delegate 'button.volume_cycle', \click, ->
+    BG.player.volumeCycle!
+.delegate 'button.heart,button.trash', \click, ->
+    $t = $ @
+    fav_type = if $t.is '.heart' then 1 else 2
+    del = if $t.is '.activated' then 1 else 0
+    BG.player.favSong fav_type, del .success (o)->
+        alert o.msg
+        newSong BG.player.song
+.delegate 'button.fav', \click ->
+    $t = $ @
+    fav_type = 1
+    del = if $t.is '.activated' then 1 else 0
+    obj_type = \music
+    obj_id = BG.player.song.wiki_id
+    data = {fav_type, obj_type, obj_id, 'delete':del}
+    postData = {}
+    postData['fav_data['+k+']'] = data[k] for k in data
+    $.post 'http://moe.fm/ajax/fav', postData, (o)~>
+        if !o.status
+            return
+        if BG.player.song.wiki_id == obj_id
+            if del
+                BG.player.song.fav_wiki = null
+            else
+                BG.player.song.fav_wiki = {fav_type, obj_id, obj_type}
+            newSong BG.player.song
+        alert o.msg
+    , 'json'
 

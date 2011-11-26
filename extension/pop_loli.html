@@ -1,7 +1,52 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
+        <title>Moe.FM</title>
+        <link rel="stylesheet" href="styles/loli.css" />
         <script data-main="scripts/pop_loli.main" src="scripts/require-jquery.js"></script>
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
     </head>
-    <body></body>
+    <body>
+    	<div class="progress">
+    		<div class="buffered"></div>
+    		<div class="played"></div>
+    	</div>
+      <div class="panel">
+        <button class="next">
+          <span>下一曲</span>
+        </button>
+        <button class="stop">
+          <span>停止</span>
+        </button>
+        <button class="trash">
+          <span>抛弃</span>
+        </button>
+        <button class="volume_cycle">
+          <span>调整音量</span>
+        </button>
+        <button class="fav">
+          <span>收藏专辑</span>
+        </button>
+        <button class="heart">
+          <span>收藏此曲</span>
+        </button>
+      </div>
+      <div class="playing">-</div>
+      <script type="text/x-sjtp" id="tmpl_playing">
+      	[[~setTimeout(function() {
+      		console.log(song);
+      		$('button.fav').toggleClass('activated', null !== song.fav_wiki);
+      		$('button.heart').toggleClass('activated', song.fav_sub && song.fav_sub.fav_type == 1 ? true : false);
+      		$('button.trash').toggleClass('activated', song.fav_sub && song.fav_sub.fav_type == 2 ? true : false);
+      	});]]
+      	<img src="[[:song.cover]]" alt="" class="cover" />
+      	<p class="song">
+      		<a href="[[:song.sub_url]]" target="_blank" title="[[:song.title]]">[[:song.title]]</a>
+      	</p>
+     		<p class="album">
+      		<a href="[[:song.wiki_url]]" target="_blank" title="[[:song.wiki_title]]">[[:song.wiki_title.replace(/^\[[^\[]+\]/, '')]]</a>
+      	</p>
+      </script>
+    </body>
 </html>

@@ -5,7 +5,6 @@ new
     is_login = false
 
     @$audio = @song = null
-#    @playing = false
 
     @__defineGetter__ \playing, ->
         if @$audio
@@ -16,7 +15,6 @@ new
         U.badge '', \red
         @$audio?.remove!
         @$audio = null
-        @playing = false
         void
 
     getNextSong = ~>
@@ -41,12 +39,9 @@ new
             src: song.url,
             controls: false,
             autoplay: true
-        .appendTo document.body .addClass \fmplayer .bind \playing, ~>
-            #            @playing = true
-            void
+        .appendTo document.body .addClass \fmplayer
         .bind \pause, ~>
             U.badge '', \red
-#            @playing = false
             void
         .bind \ended, ~>
             $.get 'http://moe.fm/ajax/log',

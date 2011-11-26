@@ -1,3 +1,36 @@
-($) <- require [\jquery]
+($) <- require [\jquery \lib/jquery.sjtp.min]
+BG = chrome.extension.getBackgroundPage!
+newSong = (song)->
+    if !song
+        return
+    $('.playing').render(tmpl_playing, {song})
 
+$ window .bind \player_next_song, (event, song)->
+    newSong song
+newSong BG.player.song if BG.player.song
+
+$buffered = $ '.progress>.buffered'
+$played = $ '.progress>.played'
+setTimeout ->
+    setTimeout @@callee, 1000
+    if !BG.player.playing
+        $buffered.width 0
+        $played.width 0
+        return
+    aud = BG.player.$audio.0
+    {duration, buffered, played} = aud
+    $buffered.width ((100 * (buffered.end 0) / duration)toFixed 1) + \%
+    $played.width ((100 * (played.end 0) / duration)toFixed 1) + \%
+,1000
+
+$ document.body .delegate 'button.next', \click, ->
+    BG.player.skip!
+.delegate 'button.play', \click, ->
+    BG.player.play!
+.delegate 'button.stop', \click, ->
+    BG.player.stop!
+.delegate 'button.volume_low', \click, ->
+    BG.player.volumeDown!
+.delegate 'button.volume_high', \click, ->
+    BG.player.volumeUp!
 

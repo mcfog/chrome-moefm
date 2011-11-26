@@ -1,4 +1,4 @@
-(action)<- defind [\_actions], ->
+(action)<- define [\_actions]
 console.log 'Akariiiin~~'
 BG = chrome.extension.getBackgroundPage!
 S = localStorage

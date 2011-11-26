@@ -2,5 +2,7 @@ BG = chrome.extension.getBackgroundPage!
 action = do
     skip:BG.player.~skip
     stop:BG.player.~stop
+    loli:->
+        window.open (chrome.extension.getURL 'pop_loli.html'), \com.mcfog.chrome.mmf.login, 'noresize=1,width=210,height=175,top=0,left=0'
 define action
 

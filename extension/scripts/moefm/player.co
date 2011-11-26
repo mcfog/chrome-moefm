@@ -1,96 +1,115 @@
-($, PLIST, USER, U)<- define [\jquery, \moefm/playlist, \moefm/user, \mc/util]
-new
-    @mgr = new PLIST.Manager PLIST.random
-    PLAYER = @
+($, PLIST, USER, U)<- define [\jquery, \moefm/playlist, \moefm/user, \mc/util]
+new
+    @mgr = new PLIST.Manager PLIST.random
+    PLAYER = @
     is_login = false
-    
-    @$audio = @song = null
-    @playing = false
-    @stop = ~>
+
+    @$audio = @song = null
+#    @playing = false
+
+    @__defineGetter__ \playing, ->
+        if @$audio
+            !@$audio.0.paused
+        else
+            false
+    @stop = ~>
         U.badge '', \red
-        @$audio?.remove!
-        @$audio = null
-        @playing = false
-        void
-
-    getNextSong = ~>
+        @$audio?.remove!
+        @$audio = null
+        @playing = false
+        void
+
+    getNextSong = ~>
         if !is_login
             is_login := USER.is_login!
             if !is_login
                 USER.do_login!
                 return @song = false
 
-        if @song = @mgr.next!
-            chrome.browserAction.setTitle do
-                title: [@song.title, decodeURIComponent @song.wiki_title].join('\n')
-        @song
-
-    @play = ~>
-        @stop!
+        if @song = @mgr.next!
+            chrome.browserAction.setTitle do
+                title: [@song.title, decodeURIComponent @song.wiki_title].join('\n')
+            w.$ w .trigger 'player_next_song', [@song] for w of chrome.extension.getViews!
+        @song
+
+    @play = ~>
+        @stop!
         song = getNextSong!
-        return if !song
-        U.badge '>_<', \yellow
-        @$audio := $ '<audio>',
-            src: song.url,
-            controls: false,
-            autoplay: true
-        .appendTo document.body .addClass \fmplayer .bind \playing, ~>
-            @playing = true
-            void
-        .bind \pause, ~>
+        return if !song
+        U.badge '>_<', \yellow
+        @$audio := $ '<audio>',
+            src: song.url,
+            controls: false,
+            autoplay: true
+        .appendTo document.body .addClass \fmplayer .bind \playing, ~>
+            #            @playing = true
+            void
+        .bind \pause, ~>
             U.badge '', \red
-            @playing = false
+#            @playing = false
             void
         .bind \ended, ~>
-            $.get 'http://moe.fm/ajax/log', 
-                log_obj_type:'sub'
-                log_type:'listen'
-                obj_type:'song'
-                obj_id:@song.sub_id
+            $.get 'http://moe.fm/ajax/log',
+                log_obj_type:'sub'
+                log_type:'listen'
+                obj_type:'song'
+                obj_id:@song.sub_id
             @skip!
             void
         .bind \emptied, ~>
             U.badge '', \red
-        .bind \loadstart, ~>
-            U.badge '>_<', \orange
-            void
-        .data \begin, Date.now!
-        void
-        
-    @pause = ~>
-        if !@$audio
-            return
-        if @playing
-            @$audio.0.pause!
-        else
-            @$audio.0.play!
-        void
-
-    @setVolumn = (v) ~>
-        @$audio?.volume = v
+        .bind \loadstart, ~>
+            U.badge '>_<', \orange
+            void
+        .data \begin, Date.now!
         void
 
-    @skip = ~>
-        if !@$audio
-            @play!
-            return
+    @pause = ~>
+        if !@$audio
+            return
+        if @playing
+            @$audio.0.pause!
+        else
+            @$audio.0.play!
+        void
+
+    @setVolume = (v) ~>
+        @$audio?.0.volume = v
+        void
+    @volumeUp = (v = 0.2) ~>
+        if !@$audio
+            return
+        current = @$audio.0.volume
+        @$audio.0.volume = Math.min 1, current + v
+        void
+    @volumeDown = (v = 0.2) ~>
+        if !@$audio
+            return
+        current = @$audio.0.volume
+        @$audio.0.volume = Math.max 0, current - v
+        void
+
+    @skip = ~>
+        if !@$audio
+            @play!
+            return
         song = getNextSong!
         return if !song
-        @$audio?.attr do
-            src:song.url
-        .data \begin, Date.now!
-        void
-    
-    setTimeout ~>
-        text = false
-        if @playing
-            tdiff = @song.stream_length - @$audio.0.currentTime
-            if tdiff < 60
-                text = (parseInt tdiff)+''
-            else
-                text = (parseInt tdiff/60) + 'm'
-        U.badge text, \blue if text !== false
-        setTimeout @@callee, 1000
-    , 1000
+        @$audio?.attr do
+            src:song.url
+        .data \begin, Date.now!
+        void
+
+    setTimeout ~>
+        text = false
+        if @playing
+            tdiff = (@$audio.0.duration||@song.stream_length) - @$audio.0.currentTime
+            if tdiff < 60
+                text = (parseInt tdiff)+''
+            else
+                text = (parseInt tdiff/60) + 'm'
+        U.badge text, \blue if text !== false
+        setTimeout @@callee, 1000
+    , 1000
 #EOF
 

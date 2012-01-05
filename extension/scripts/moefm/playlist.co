@@ -1,27 +1,27 @@
-($, user)<- define [\jquery, \moefm/user]
-new
-    @random = ->
-        list = []
-        $.ajax do
-            url:'http://moe.fm/listen/playlist'
-            async: false
-        .success (rst)->
-            if $.isArray rst
-                list := rst
-            else
-                user.do_login!
-            void
-        list
-    
-    @Manager = class
-        (@fetch)->
-            @pool = @fetch!
-            @current = 0
-            void
-        next: ->
-            @current += 1
-            if @current >= @pool.length
-                @pool = @fetch!
-                @current = 0
-            return @pool[@current]
-#EOF
+($, user)<- define [\jquery, \moefm/user]
+new
+    @random = ->
+        list = []
+        $.ajax do
+            url:'http://moe.fm/listen/playlist'
+            async: false
+        .success ({info, playlist})->
+            if $.isArray playlist
+                list := playlist
+            else
+                user.do_login!
+            void
+        list
+
+    @Manager = class
+        (@fetch)->
+            @pool = @fetch!
+            @current = 0
+            void
+        next: ->
+            @current += 1
+            if @current >= @pool.length
+                @pool = @fetch!
+                @current = 0
+            return @pool[@current]
+#EOF

@@ -1,4 +1,8 @@
 ($) <- require [\jquery, \lib/jquery.sjtp.min, \lib/jquery.inputtip]
+
+window.open 'http://moe.fm/login?no_invitation=1'
+return
+
 <- $
 
 $ document.body .render ($ \#main_tpl), {}

@@ -98,7 +98,7 @@ button.info {
 }
 .playing .cover {
 	position:absolute;
-	right:-6px;
+	right:0;
 	bottom:2px;
 	max-height:36px;
 	max-width:36px;

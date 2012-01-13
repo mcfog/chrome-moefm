@@ -19,6 +19,6 @@
 		"default_icon" : "images/radio.png"
 	},
 	
-	"permissions" : [ "unlimited_storage", "background", 
+	"permissions" : [ "unlimited_storage", "background", "tabs",
 		"*://moe.fm/*", "*://*.moefou.org/*", "*://moefou.org/*" ]
 }

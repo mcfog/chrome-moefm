@@ -95,6 +95,7 @@ new
         .data \begin, Date.now!
 
     @favSong = (fav_type, del = 0)~>
+        return if !@playing
         obj_id = @song.sub_id
         obj_type = \song
         data = {fav_type, obj_id, obj_type, 'delete':del}
@@ -116,6 +117,7 @@ new
         @skip! if skip
 
     @__defineGetter__ 'mode', ->mgr.mode
+    @__defineGetter__ 'mgr', ->mgr
 
     setTimeout !~>
         text = false

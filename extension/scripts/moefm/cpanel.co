@@ -11,7 +11,8 @@ BG = chrome.extension.getBackgroundPage!
         BG.player.volumeDown!
     .delegate 'button.volume_high', \click, ->
         BG.player.volumeUp!
-    .delegate 'button.volume_cycle', \click, ->
+    .delegate 'button.volume_cycle', \mousedown, ->
+        console.log it
         BG.player.volumeCycle!
     .delegate 'button.list', \click, ->
         BG.switchMode!

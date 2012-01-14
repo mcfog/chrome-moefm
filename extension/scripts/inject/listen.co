@@ -1,0 +1,30 @@
+c_eval = (source) ->
+    if \function == typeof source
+        source = '(' + source + ')();'
+    script = document.createElement \script
+    script.setAttribute \type, \application/javascript
+    script.textContent = source
+    document.body.appendChild script
+    document.body.removeChild script
+    void
+
+request = (action, data, cb) ->
+    chrome.extension.sendRequest {action,data}, cb
+bgeval = (req, data,..., cb) ->
+    data = {} if data===cb
+    request 'eval',
+        func:''+req
+        data:data
+    ,cb
+
+
+document.documentElement.innerHTML = ' Loading...'
+
+<- bgeval (BG)->
+    BG.player.play! if !BG.player.playing
+    if data.song
+        BG.player.mgr.insert data.song 
+        BG.player.skip!
+, {song:(location.getParameter 'song')}
+
+window.location = chrome.extension.getURL('listen.html')

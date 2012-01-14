@@ -1,10 +1,18 @@
 ($, cpanel) <- require [\jquery \moefm/cpanel \lib/jquery.sjtp.min]
 BG = chrome.extension.getBackgroundPage!
 
+chrome.windows.getAll {populate:true}, !(wins)->
+    <-!setTimeout ...,500
+    (curTab)<-!chrome.tabs.getCurrent
+    for win of wins
+        for tab of win.tabs
+            chrome.tabs.remove tab.id if curTab.id != tab.id && tab.url.match //^#{chrome.extension.getURL 'listen.html'}//
+
 newSong = (song)->
     if !song
         return
-    $('.playing')render tmpl_playing, {song}
+    $(\.radio)render ($ \#tmpl_radio), {song}
+    $(\title).text "#{song.title} @Moe.fm"
     <-!setTimeout
     $('button.fav')toggleClass 'activated', song.fav_wiki is not null
     $('button.heart')toggleClass 'activated', song.fav_sub?.fav_type == 1
@@ -12,12 +20,14 @@ newSong = (song)->
 
 $ window .bind \player_next_song, (event, song)->
     newSong song
+
+BG.player.play! if !BG.player.playing
 newSong BG.player.song if BG.player.song
 
-$buffered = $ '.progress>.buffered'
-$played = $ '.progress>.played'
 setTimeout ->
     setTimeout @@callee, 1000
+    $buffered = $ '.track>.buffered'
+    $played = $ '.track>.progress'
     if !BG.player.playing
         $buffered.width 0
         $played.width 0
@@ -28,15 +38,12 @@ setTimeout ->
         $buffered.width ((100 * (buffered.end 0) / duration)toFixed 1) + \%
     if played.length>0
         $played.width ((100 * (played.end 0) / duration)toFixed 1) + \%
+    remain = duration - played.end 0
+    m = parseInt remain/60
+    m = "0#m" if m < 10 
+    s = parseInt remain%60
+    s = "0#s" if s < 10 
+    $ '.time span' .text "-#m:#s"
 ,1000
 
 cpanel $ document.body
-
-
-t = parseInt localStorage.song_notify
-if t>0
-    timeout = setTimeout window.close, t
-    $(document.body)hover !->
-        clearTimeout timeout
-    , !->
-        timeout := setTimeout window.close, t

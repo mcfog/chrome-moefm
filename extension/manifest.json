@@ -1,6 +1,6 @@
 {
 	"name"				: "Mcfog's Moe.Fm",
-	"version"			: "0.2.0.2",
+	"version"			: "0.3.0.0",
 	"verno"				: "0",
 	"description"		: "Moe.fm 萌否电台",
 	"icons": {
@@ -9,10 +9,9 @@
 	"options_page"		: "options.html",
 	"background_page"	: "background.html",
 	"content_scripts"	: [{
-		"all_frames"	: true,
-		"js"				: [ "scripts/require.js", "scripts/inject/login.js" ],
-		"matches"		: [ "http://moe.fm/login?no_invitation=1&mmf_inject=1" ],
-		"run_at"		: "document_idle"
+		"js"				: [ "scripts/require.js", "scripts/inject/listen.js" ],
+		"matches"		: [ "http://moe.fm/listen*" ],
+		"run_at"		: "document_start"
 	}],
 
 	"browser_action"	: {

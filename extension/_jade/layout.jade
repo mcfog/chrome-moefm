@@ -1,0 +1,71 @@
+!!! 5
+html(lang='zh-CN')
+head
+    meta(charset='UTF-8')
+    block title
+      title Moe.Fm
+    link(rel='shortcut icon', href='favicon.ico')
+    block head
+      link(rel='stylesheet', href='http://moe.fm/public/css/style.css', type='text/css', media='screen')
+      link(rel='stylesheet', href='http://moe.fm/public/css/fm.css', type='text/css', media='screen')
+    block script
+      script(src='scripts/require-jquery.js')
+  body
+    #page
+      header#header
+        .header-inner
+          nav#navi
+            .navi-inner
+              .wrap
+                .left
+                  a(href='http://moe.fm/', target='_blank') 电台首页
+                  a(href='http://moe.fm/listen') 开始聆听
+                  a(href='http://moe.fm/explore', target='_blank') 发现音乐
+                  a(href='http://moefou.org/group/moefm', target='_blank') 电台小组
+                  .clear
+                .right
+                  section.navi-panel
+                    a.navi-panel-button(href='listen.html') 控制台
+                  section.navi-panel
+                    a.navi-panel-button(href='options.html') 选项
+                  .clear
+                .clear
+          //-END #navi 
+          section.header-body
+            .header-body-inner
+              .wrap
+                section.col-left.w-240.left.mt-05.mb-05
+                  a(title="Mcfog's Moe.Fm")
+                    img(src="images/ext_moefou.png",style="margin:-8px 5px -8px 0;")
+                  a(href='http://moe.fm/')
+                    img(src='http://moe.fm/public/images/fm/logo.png', alt='萌否电台')
+                .clear
+      //-END #header 
+      section#content
+        .wrap
+          block content
+          .clear
+        //-END .wrap 
+      //-END #content 
+      .ukagaka
+        .shell
+          img(src='http://moe.fm/public/images/ukagakas/moefou_fm.png', alt='萌否娘 电台Mode')
+          .shell-cover
+        .clear
+      //-END .ukagaka 
+      footer#footer
+        .wrap
+          section.refered-link.mb-05.left.cleared
+            a(target='_blank', href='http://moefou.org/about') 关于萌否
+          .tips.right
+            | Powered by Mcfog's Moe.Fm
+          .clear
+          //-Scripts 
+          section.gray
+            .left
+              | 由萌否(Moefou.org)强力驱动
+            .clear
+      //-END #footer 
+    //-END #page 
+  //-END body
+//-END html

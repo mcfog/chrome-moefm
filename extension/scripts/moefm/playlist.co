@@ -1,18 +1,16 @@
 ($, user, _)<- define [\jquery, \moefm/user, \underscore]
 PLIST = new
     fetch = ->
-        list = []
+        rst = {info:{}, playlist:[]}
         $.ajax do
             url:it
             async: false
-        .success ({info, playlist})->
-            if $.isArray playlist
-                list := playlist
-                fetch.lastResult = @@0
+        .success !->
+            if $.isArray it.playlist
+                rst := it
             else
                 user.do_login!
-            void
-        list
+        rst
     @mode_random = ->
         fetch 'http://moe.fm/listen/playlist?share_buttons=1'
     _mk_mode = (url, shuffled = true)->
@@ -20,19 +18,19 @@ PLIST = new
             me = @@callee
             me.next = url if !me.next
             rst = fetch me.next
-            with fetch.lastResult.info
-                me.next = if @may_have_next then @next_url else false
-            rst = _.shuffle rst if shuffled
+            me.next = if rst.info.may_have_next then rst.info.next_url else false
+            rst.playlist = _.shuffle rst.playlist if shuffled
             rst
     @mode_song = _mk_mode 'http://moe.fm/listen/playlist?share_buttons=1&fav=song'
     @mode_album = _mk_mode 'http://moe.fm/listen/playlist?share_buttons=1&fav=music'
     @mode_radio = _mk_mode 'http://moe.fm/listen/playlist?share_buttons=1&fav=radio'
 
-    @mode_endlessEight = (...list)->
-        if list.length>0
+    @mode_endlessEight = (list = false)->
+        if list
             list
         else
-            [@pool[@current]]
+            {info:{}, playlist:[@pool[@current]]}
+
 
     @Manager = class
         (@_mode, args=[])->
@@ -46,8 +44,25 @@ PLIST = new
         mode:~ ->@_mode
         next: ->
             @current += 1
-            if @current >= @pool.length
+            if @current >= @pool.playlist.length
                 @pool = @_fetch!
                 @current = 0
-            @pool[@current]
+            @pool.playlist[@current]
+
+        insert: !(song, index = @current)->
+            song = fetchSong song if typeof song is not \object
+            return if !song
+            @pool.playlist = [
+                @pool.playlist.slice 0,index+1
+                [song]
+                @pool.playlist.slice index+1, @pool.playlist.length
+            ].reduce (a,b)->a.concat b
+    #end class Manager
+    fetchSong = (id)->
+        id = parseInt id
+        return null if !id
+        {info,playlist} = fetch "http://moe.fm/listen/playlist?song=#id"
+        return null if !info.is_target
+        playlist.0
+            
 #EOF

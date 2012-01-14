@@ -1,0 +1,68 @@
+extends _jade/layout
+block title
+  title 收听音乐 | 萌否电台
+
+block append head
+  link(rel='stylesheet', href='styles/_panel.css', type='text/css', media='screen')
+
+block script
+  script(data-main='scripts/listen.main', src='scripts/require-jquery.js')
+
+
+block content
+  .radio.mt-1.pt-1.pb-2
+  script#tmpl_radio(type="text/sjtp")
+    .row-top
+        .album-cover
+            a.playlist_cover.lh-0.block(target='_blank', title='浏览专辑', href='[[:song.wiki_url]]')
+              img.cover.w-192(src='[[:song.cover.square]]', alt='')
+        //-END .album-cover 
+        .ml-18
+          h1.pt-2.overflow.cleared(style='height: 26px;')
+            .playlist_title.left [[:song.title]]
+            .playlist_artist.left.hide.size-14.weight-normal.gray.ml-05.mt-05.pt-005 [[:song.artist]]
+          .gray.size-14.mt-1
+            | 专辑
+            a.playlist_wiki_title.black(target='_blank', href='[[:song.wiki_url]]') [[:song.wiki_title]]
+          .clear
+        .clear
+    //-END .row-top 
+    .row-bottom.bg-bar
+      .ml-16.pl-005
+        #player.player
+          #player-obj
+            #player-obj-inner
+          #player-control.player-control
+            a.play play
+            .track
+              .buffer(style='width: 654px;')
+              .progress(style='width: 5px;')
+              .playhead(style='left: 5px;')
+            .time
+              span -⑨:⑨
+              strong [[:song.stream_time]]
+            a.mute mute
+          .player-items.ml-2.mt-2.panel
+            button.next
+              span 下一曲
+            button.stop
+              span 停止
+            button.trash
+              span 抛弃
+            button.list
+              span 切换模式
+            button.volume_cycle
+              span 调整音量
+            button.fav.activated
+              span 收藏专辑
+            button.heart.activated
+              span 收藏此曲
+            .clear
+        //-END #player 
+    //-END .row-bottom 
+    #share_area.mt-1.cleared
+      span.left.mt-005
+        | 分享到：
+      span#share_buttons [[:song.share_buttons]]
+    //-END #share_area 
+  //-END #tmpl_radio

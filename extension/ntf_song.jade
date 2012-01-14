@@ -1,0 +1,30 @@
+!!! 5
+html
+    head
+        meta(charset="UTF-8")
+        link(rel="stylesheet",href="styles/ntf_song.css")
+        script(data-main="scripts/ntf_song.main", src="scripts/require-jquery.js")
+    body
+        .progress
+            .buffered
+            .played
+        .playing
+        .panel
+            button.next(title="下一曲")
+            button.stop(title="停止")
+            button.trash(title="抛弃")
+            button.volume_cycle(title="调整音量")
+            button.fav(title="收藏专辑")
+            button.heart(title="收藏此曲")
+
+        script#tmpl_playing(type="text/x-sjtp")
+            img.cover(src="[[:song.cover.small]]",alt="")
+            p.song
+                a(href="[[:song.sub_url]]",target="_blank",title="[[:song.title]]")
+                    [[:song.title]]
+            p.album
+                a(href="[[:song.wiki_url]]",target="_blank",title="[[:song.wiki_title]]")
+                    [[:song.wiki_title.replace(/^\[[^\[]+\]/, '')]]
+        //-end #tmpl_playing
+    //-end body
+//-end html

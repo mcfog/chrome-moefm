@@ -1,0 +1,3 @@
+[submodule "extension/styles/nib"]
+	path = extension/styles/nib
+	url = git://github.com/visionmedia/nib.git

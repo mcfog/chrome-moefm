@@ -68,6 +68,8 @@ task \compile, 'compile .co files' , (options)->
 		switch
 		case /\/nib\//test path
 			next?!
+		case /\/_jade\//test path
+			next?!
 		case /\.co$/test path
 			<- run "coco -c " + path
 			recyclebin.push path

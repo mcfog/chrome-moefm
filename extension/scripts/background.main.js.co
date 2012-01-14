@@ -1,7 +1,7 @@
-(window.player) <- require [\moefm/player]
+($, window.player) <- require [\jquery \moefm/player]
 S = localStorage
 
-if 0 !== S.action_click.indexOf('pop_')
+if 0 !== S.action_click?.indexOf('pop_')
     chrome.browserAction.setPopup do
         popup: ''
     chrome.browserAction.onClicked.addListener ->
@@ -11,7 +11,25 @@ else
     chrome.browserAction.setPopup do
         popup: 'popup.html'
 
+$(window)bind \player_next_song, (event, song)->
+    return if !S.song_notify
+    n = chrome.extension.getViews {type:'notification'} .filter ->
+        it.location.pathname=='/ntf_song.html'
+    .0
+    if !n
+        ntf = webkitNotifications.createHTMLNotification \ntf_song.html
+        ntf.show!
 
+window <<<
+    switchMode: ->
+        (w) <-! chrome.windows.getLastFocused
+        with w
+            left = @left - screen.availLeft+ @width - 375
+            top = @top - screen.availTop + 70
+            window.open (chrome.extension.getURL 'pop_switch_mode.html'), \com.mcfog.chrome.mmf.swich_mode, 
+                "noresize=yes,width=375,height=130,top=#top,left=#left"
+
+player.switchMode(localStorage.mode) if localStorage.mode
 (request, sender, sendResponse)<- chrome.extension.onRequest.addListener
 switch request.action
 case 'eval'

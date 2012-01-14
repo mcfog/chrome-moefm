@@ -43,7 +43,7 @@ run = (cmd, con, ..., after)->
 walkdir = (dirpath, filecb, cb) ->
 	buildlist = [dirpath]
 
-	next = ->
+	next = !->
 		path= buildlist.pop()
 		if !path
 			return cb!
@@ -53,7 +53,6 @@ walkdir = (dirpath, filecb, cb) ->
 			next!
 		catch e
 			filecb path, next
-		void
 	next!
 
 ### Main ###
@@ -64,13 +63,33 @@ task \clean, 'clean the build directory' , (options)->
 task \compile, 'compile .co files' , (options)->
 	<- run "coke clean"
 	<- run "cp -r ./extension ./build"
-	<- walkdir 'build/scripts', (path, next)->
-		if /\.co$/test path
+	recyclebin = []
+	<- walkdir 'build', !(path, next)->
+		switch
+		case /\/nib\//test path
+			next?!
+		case /\.co$/test path
 			<- run "coco -c " + path
-			<- run "rm " + path
+			recyclebin.push path
 			next?!
+		case /\.jade$/test path
+			<- run "jade " + path
+			recyclebin.push path
+			next?!
+		case /\.styl$/test path
+			<- run "stylus " + path
+			recyclebin.push path
+			next?!
+		default
+			next?!
+	recycle = (cb)->
+		if recyclebin.length == 0
+			cb?!
 		else
-			next?!
+			path = recyclebin.shift!
+			<- run "rm #path"
+			recycle cb
+	<- recycle
 	console.log \done.
 
 task \build, 'clean, compile, and compress' , (options)->

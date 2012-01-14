@@ -1,0 +1,70 @@
+.panel button
+    position relative
+    z-index auto
+    opacity 0.8
+    border 0
+    border-radius 2px
+    box-shadow 0 0 2px 2px #EEE
+    width 54px
+    height 54px
+    background-color transparent
+    background-position 3px 3px
+    background-repeat no-repeat
+    margin 4px
+    cursor pointer  
+
+    span
+        display none
+        z-index 20
+        absolute bottom -40px left -5px
+        background rgba(0,0,0,0.6)
+
+        color white
+        border-radius 4px
+        width 65px
+        padding 5px 0
+        text-align center
+
+    &:hover
+        box-shadow 0 0 3px 3px #777
+        opacity 1.0
+        span:before
+            content  'a'
+            color transparent
+            border-color  transparent transparent rgba(0,0,0,0.6)
+            border-style  solid
+            border-width  0 5px 10px
+            absolute top -10px left 29px
+            height 0
+            width 0
+        span
+            display inline-block
+
+    &.play
+        background-image url(images/playback_play.png)
+    &.next
+        background-image url(images/playback_next.png)
+    &.stop
+        background-image url(images/playback_stop.png)
+    &.list
+        background-image url(images/list.png)
+    &.heart
+        background-image url(images/heart_empty.png)
+    &.heart.activated
+        background-image url(images/heart.png)
+    &.fav
+        background-image url(images/star_fav_empty.png)
+    &.fav.activated
+        background-image url(images/star_fav.png)
+    &.trash
+        background-image url(images/trash_empty.png)
+    &.trash.activated
+        background-image url(images/trash.png)
+    &.volume_high
+    &.volume_cycle
+        background-image url(images/sound_high.png)
+    &.volume_low
+        background-image url(images/sound_low.png)
+    &.info
+        background-image url(images/info.png)
+

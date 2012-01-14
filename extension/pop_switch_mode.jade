@@ -1,0 +1,26 @@
+!!! 5
+html
+  head
+    meta(charset="UTF-8")
+    title 切换模式
+    link(rel="shortcut icon",type="image/x-icon",href="favicon.ico")
+    link(rel="stylesheet",href="styles/smoothness/jquery-ui.css")
+    style
+      body{overflow:hidden}
+    script(data-main="scripts/pop_switch_mode.main",src="scripts/require-jquery.js")
+  body
+    #modes
+      input#mode_random(type="radio",name="mode")
+      label(for="mode_random",title="随机播放") 随机
+      input#mode_radio(type="radio",name="mode")
+      label(for="mode_radio",title="收藏的电台") 电台
+      input#mode_album(type="radio",name="mode")
+      label(for="mode_album",title="收藏的专辑") 专辑
+      input#mode_song(type="radio",name="mode")
+      label(for="mode_song",title="喜爱的歌曲") 歌曲
+      input#mode_endlessEight(type="radio",name="mode")
+      label(for="mode_endlessEight",title="单曲循环") 单曲
+    p
+      您或许还需要
+      a(href="javascript:void(0)",onclick='BG.player.skip()') 跳曲
+      ?

@@ -1,0 +1,292 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>收听音乐 | 萌否电台</title>
+  <base href="http://moe.fm/listen"/>
+  <link rel="stylesheet" href="http://moe.fm/public/css/style.css?v=1313475519" type="text/css" media="screen" />
+  <link rel="stylesheet" href="http://moe.fm/public/css/fm.css?v=1325426799" type="text/css" media="screen" />
+</head>
+<body>
+<div id="page"> 
+  <header id="header">
+  <div class="header-inner">
+      <nav id="navi">
+  <div class="navi-inner">
+    <div class="wrap">
+      <div class="left">
+        <a href="http://moe.fm/" target="_blank">电台首页</a>
+        <a href="http://moe.fm/listen">开始聆听</a>
+        <a href="http://moe.fm/explore" target="_blank">发现音乐</a>
+        <a href="http://moefou.org/group/moefm" target="_blank">电台小组</a>
+        <div class="clear"></div>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </div>
+  </nav><!-- END #navi -->  
+    <section class="header-body">
+<div class="header-body-inner">
+
+    <div class="wrap">
+    
+      <section class="col-left w-240 left mt-05 mb-05">
+        
+        <a href="http://moe.fm/">
+          <img src="http://moe.fm/public/images/fm/logo.png" alt="萌否电台"/>
+        </a>
+        
+      </section>
+      <div class="clear"></div>
+    </div>
+
+</div>
+</section>
+  </div>
+  </header><!-- END #header -->
+
+
+  <section id="content">
+    <div class="wrap">
+
+
+
+
+<div class="radio mt-1 pt-1 pb-2">
+
+  <div class="row-top">
+  
+  
+    <div class="album-cover">
+  
+      <a class="playlist_cover lh-0 block" target="_blank" title="浏览专辑" href="#">
+        <img class="cover w-192" src="http://moe.fm/public/images/fm/cover_medium.png" alt=""/>
+      </a>
+    
+    </div><!-- END .album-cover -->
+    
+    
+    
+    <div class="ml-18">
+  
+      <h1 class="pt-2 overflow cleared" style="height:26px;">
+        <div class="playlist_title left"></div>
+        <div class="playlist_artist left hide size-14 weight-normal gray ml-05 mt-05 pt-005"></div>
+      </h1>
+      
+      <div class="playlist_fav_wiki hide left mt-05 pt-005 mr-005">
+        <a
+  id="fav_music_"
+  class="fav-button fav-music small moetips"
+  title="将专辑加入收藏"
+  href="http://moe.fm/ajax/fav/panel//"
+  onclick="return false;">
+<span class="fav-button-inner">
+  <span class="off-txt">收藏专辑</span>
+  <span class="on-txt">正在收藏</span>
+  <span class="loading-txt">提交中..</span>
+</span>
+</a>      </div>
+      
+      <div class="gray size-14 mt-1">
+        专辑
+        <a class="playlist_wiki_title black" target="_blank" href="#"></a>
+      </div>
+      
+      
+      <div class="clear"></div>
+    
+    </div>
+    
+    
+    
+    <div class="clear"></div>
+  </div><!-- END .row-top -->
+  
+
+
+
+  <div class="row-bottom bg-bar">
+    <div class="ml-16 pl-005">
+      
+      
+      
+      <div id="player" class="player">
+      
+        <div id="player-obj">
+          <div id="player-obj-inner"></div>
+        </div>
+        
+        <div id="player-control" class="player-control"></div>
+        
+        <div class="player-items ml-2 mt-2">
+      
+          <a class="player-button button-love disabled fav-song left mr-3 moetips" title="喜欢" id="" href="#" onclick="return false;"></a>
+      
+          <div class="player-button button-pause disabled left mr-3 moetips" title="暂停"></div>
+      
+          <a class="player-button button-trash fav-song-trash disabled left mr-3 moetips" title="不再播放" id="" href="#" onclick="return false;" style="margin-left:-8px;"></a>
+      
+          <div class="player-button button-next disabled left mr-3 moetips" title="下一曲"></div>
+      
+          <div class="player-button button-volume disabled left mt-1">
+            <div class="volume-bg">
+              <div class="volume-progress" style="width:100%"></div>
+            </div>
+          </div>
+        
+          <div class="clear"></div>
+        </div>
+      
+      </div><!-- END #player -->
+      
+      
+      
+    </div>
+  </div><!-- END .row-bottom -->
+
+
+
+  <div id="share_area" class="mt-1 cleared" style="visibility:hidden;">
+    <span class="left mt-005">
+      分享到：
+    </span>
+    <span id="share_buttons">
+      
+
+    
+      
+    <a class="share-button share-sina inline-block" href="http://v.t.sina.com.cn/share/share.php?url=http://moe.fm/listen&title=%E6%88%91%E6%AD%A3%E5%9C%A8%E6%94%B6%E5%90%AC%23%E8%90%8C%E5%90%A6%E7%94%B5%E5%8F%B0%23&pic=" title="分享到新浪微博" target="_blank"></a>
+
+    
+      
+    <a class="share-button share-tencent inline-block" href="http://v.t.qq.com/share/share.php?title=%E6%88%91%E6%AD%A3%E5%9C%A8%E6%94%B6%E5%90%AC%23%E8%90%8C%E5%90%A6%E7%94%B5%E5%8F%B0%23&url=http://moe.fm/listen&pic=" title="分享到腾讯微博" target="_blank"></a>
+
+    
+      
+    <a class="share-button share-douban inline-block" href="http://www.douban.com/recommend/?url=http://moe.fm/listen&title=%E6%88%91%E6%AD%A3%E5%9C%A8%E6%94%B6%E5%90%AC%23%E8%90%8C%E5%90%A6%E7%94%B5%E5%8F%B0%23" title="分享到豆瓣网" target="_blank"></a>
+
+    
+      
+    <a class="share-button share-renren inline-block" href="http://share.xiaonei.com/share/buttonshare.do?link=http://moe.fm/listen&title=%E6%88%91%E6%AD%A3%E5%9C%A8%E6%94%B6%E5%90%AC%23%E8%90%8C%E5%90%A6%E7%94%B5%E5%8F%B0%23" title="分享到人人网" target="_blank"></a>
+
+    
+      
+    <a class="share-button share-163 inline-block" href="http://t.163.com/article/user/checkLogin.do?source=%E8%90%8C%E5%90%A6%E7%94%B5%E5%8F%B0&info=%E6%88%91%E6%AD%A3%E5%9C%A8%E6%94%B6%E5%90%AC%23%E8%90%8C%E5%90%A6%E7%94%B5%E5%8F%B0%23%20http://moe.fm/listen" title="分享到网易微博" target="_blank"></a>
+
+    
+      
+    <a class="share-button share-twitter inline-block" href="https://twitter.com/intent/tweet?source=webclient&text=%E6%88%91%E6%AD%A3%E5%9C%A8%E6%94%B6%E5%90%AC+%23%E8%90%8C%E5%90%A6%E7%94%B5%E5%8F%B0+&url=http://moe.fm/listen" title="分享到 Twitter" target="_blank"></a>
+
+    
+      
+    <a class="share-button share-googleplus inline-block" href="javascript:(function(){var w=480;var h=480;var x=Number((window.screen.width-w)/2);var y=Number((window.screen.height-h)/2);window.open('https://plusone.google.com/_/+1/confirm?url='+encodeURIComponent('http://moe.fm/listen')+'&title=%E6%88%91%E6%AD%A3%E5%9C%A8%E6%94%B6%E5%90%AC+%23%E8%90%8C%E5%90%A6%E7%94%B5%E5%8F%B0+','','width='+w+',height='+h+',left='+x+',top='+y+',scrollbars=no');})();" title="分享到 Google+"></a>
+
+      </span>
+  </div><!-- END #share_area -->
+  
+  
+</div><!-- END .radio -->
+
+<div class="clear"></div>
+
+
+
+
+      <div class="clear"></div>
+    </div><!-- END .wrap -->
+  </section><!-- END #content -->
+
+
+  <section class="popout">
+<div class="popout-inner">
+<div class="popout-inner2" onclick="if(Popout.self.hasClass('auto'))Popout.hide();">
+  
+  <section class="popout-box" onclick="if(Popout.self.hasClass('auto'))Popout.can_hide=false;">
+    
+    <header class="popout-header">
+      <a class="popout-close" onclick="Popout.hide()" href="javascript:void(0);">x</a>
+      <h3 class="popout-title">Heading</h3>
+    </header>
+    
+    <section class="popout-content">
+      <div class="popout-content-inner">
+        content
+      </div>
+    </section>
+    
+    <footer class="popout-footer">
+    <div class="popout-footer-inner">
+    
+      <button class="submit" onclick="Popout.hide()">确 定</button>
+    
+    </div>
+    </footer>
+    
+  </section>
+  
+</div>
+</div>
+</section><!-- END .popout -->
+
+<div class="hide">
+  </div>
+
+  <div class="ukagaka">
+
+  <div class="msg-box">
+  <div class="msg-box-inner">
+    <div class="dialog-layer">
+      在空无一人的楼顶尽情呼吸二次元的新鲜空气。   </div>
+    <div class="flash-layer hide"></div>
+  </div>
+  </div>
+
+  <div class="shell">
+    <img src="http://moe.fm/public/images/ukagakas/moefou_fm.png?v=1322056623" alt="萌否娘 电台Mode"/>
+    <div class="shell-cover"></div>
+  </div>
+
+  <div class="dock">
+  <div class="dock-inner">
+    <a class="toggle" href="javascript:;" onclick="Ukagaka.toggle();">隐身</a>
+    －
+    <a href="javascript:;" onclick="scrollTo(0,200);">顶部</a>
+  </div>
+  </div>
+
+  <div class="clear"></div>
+</div><!-- END .ukagaka -->
+
+  <footer id="footer">
+    <div class="wrap">
+      
+      <section class="refered-link mb-05 left cleared">
+      
+        <a target="_blank" href="http://moefou.org/about">关于萌否</a>
+        
+      </section>
+      
+      <div class="tips right">
+        Powered by Mcfog's Moe.Fm
+              </div>
+        
+      <div class="clear"></div>
+      
+      
+      <!-- Scripts -->
+      
+      <section class="gray">
+        
+        <div class="left">
+          由萌否(Moefou.org)强力驱动</div>
+        <div class="clear"></div>
+      </section>            
+    </div>
+  </footer><!-- END #footer -->
+
+</div><!-- END #page -->
+
+</body>
+</html>

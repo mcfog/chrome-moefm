@@ -1,27 +1,53 @@
-($, user)<- define [\jquery, \moefm/user]
-new
-    @random = ->
+($, user, _)<- define [\jquery, \moefm/user, \underscore]
+PLIST = new
+    fetch = ->
         list = []
         $.ajax do
-            url:'http://moe.fm/listen/playlist'
+            url:it
             async: false
         .success ({info, playlist})->
             if $.isArray playlist
                 list := playlist
+                fetch.lastResult = @@0
             else
                 user.do_login!
             void
         list
+    @mode_random = ->
+        fetch 'http://moe.fm/listen/playlist?share_buttons=1'
+    _mk_mode = (url, shuffled = true)->
+        ->
+            me = @@callee
+            me.next = url if !me.next
+            rst = fetch me.next
+            with fetch.lastResult.info
+                me.next = if @may_have_next then @next_url else false
+            rst = _.shuffle rst if shuffled
+            rst
+    @mode_song = _mk_mode 'http://moe.fm/listen/playlist?share_buttons=1&fav=song'
+    @mode_album = _mk_mode 'http://moe.fm/listen/playlist?share_buttons=1&fav=music'
+    @mode_radio = _mk_mode 'http://moe.fm/listen/playlist?share_buttons=1&fav=radio'
+
+    @mode_endlessEight = (...list)->
+        if list.length>0
+            list
+        else
+            [@pool[@current]]
 
     @Manager = class
-        (@fetch)->
-            @pool = @fetch!
-            @current = 0
-            void
+        (@_mode, args=[])->
+            @switchMode ...
+        switchMode: !(@_mode, args=[])->
+            @_fetch = ->
+                PLIST["mode_#{@_mode}"].apply @, args
+            @pool = @_fetch!
+            @current = -1
+
+        mode:~ ->@_mode
         next: ->
             @current += 1
             if @current >= @pool.length
-                @pool = @fetch!
+                @pool = @_fetch!
                 @current = 0
-            return @pool[@current]
+            @pool[@current]
 #EOF

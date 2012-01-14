@@ -1,21 +1,25 @@
 <- define []
-
-[
-    [\ele \h2 "小图标相关"]
-    [\select \action_dblclick "双击操作" do
-        skip: "播放/下一曲"
-        stop: "停止"
-        addFav: "收藏当前曲目"
-        trashSkip: "跳过并拉黑当前曲目"
-        loli: "弹出精简控制台"
-    ]
-    [\select \action_click "单击操作<span class='weak'>重新载入后生效</span>" do
-        pop_loli: "打开精简控制台"
-        skip: "播放/下一曲"
-        stop: "停止"
-        addFav: "收藏当前曲目"
-        trashSkip: "跳过并拉黑当前曲目"
-        loli: "弹出精简控制台"
-    ]
-]
+return
+    * \ele \h3 '小图标相关'
+    * \select \action_dblclick '双击操作'
+      * * \skip '播放/下一曲'
+        * \stop '停止'
+        * \addFav '收藏当前曲目'
+        * \trashSkip '跳过并拉黑当前曲目'
+        * \loli '弹出精简控制台'
+        * \switchMode '切换模式'
+    * \select \action_click '单击操作<span class="weak">重新载入后生效</span>'
+      * * \pop_loli '打开精简控制台'
+        * \skip '播放/下一曲'
+        * \stop '停止'
+        * \addFav '收藏当前曲目'
+        * \trashSkip '跳过并拉黑当前曲目'
+        * \loli '弹出精简控制台'
+        * \switchMode '切换模式'
+    * \ele \h3 '桌面通知'
+    * \select \song_notify '提醒当前播放曲目'
+      * * "" '不提醒'
+        * \5000 '提醒 5秒后自动关闭'
+        * \15000 '提醒15秒后自动关闭'
+        * \_forever '不自动关闭'
 

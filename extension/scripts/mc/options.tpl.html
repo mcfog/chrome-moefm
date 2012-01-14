@@ -8,11 +8,18 @@
 <td class="desc">[[:O.desc]]</td>
 <td>
     <select name="[[:O.name]]">
+        [[if O.data.filter(function(it){return it[0]==''}).length==0]]
         <option value="" style="color:gray">---请选择---</option>
-        [[loop O.data val name]]
-        <option value="[[:val]]"[[if S[O.name]==val]] selected[[/if]]>[[:name]]</option>
+        [[/if]]
+        [[loop O.data item]]
+        <option value="[[:item[0] ]]"[[if S[O.name]==item[0] ]] selected[[/if]]>[[:item[1] ]]</option>
         [[/loop]]
     </select>
+</td>
+[[elif O.type == 'check']]
+<td class="desc">[[:O.desc]]</td>
+<td>
+    <input type="checkbox" name="[[:O.name]]" value="yes"[[if S[O.name] ]] checked[[/if]] />
 </td>
 [[/if]]
 </tr>

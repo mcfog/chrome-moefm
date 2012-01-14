@@ -11,7 +11,7 @@ poke = ->
         return
     me._tout = setTimeout ->
         delete me._tout
-        if 0!==S.action_click.indexOf 'pop_'
+        if !S.action_click || 0!==S.action_click?.indexOf 'pop_'
             action[S.action_click||'skip']!
     , 500
 

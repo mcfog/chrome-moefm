@@ -1,6 +1,6 @@
 ($, PLIST, USER, U)<- define [\jquery, \moefm/playlist, \moefm/user, \mc/util]
 new
-    @mgr = new PLIST.Manager PLIST.random
+    mgr = new PLIST.Manager \random
     PLAYER = @
     is_login = false
 
@@ -11,11 +11,10 @@ new
             !@$audio.0.paused
         else
             false
-    @stop = ~>
+    @stop = !~>
         U.badge '', \red
         @$audio?.remove!
         @$audio = null
-        void
 
     getNextSong = ~>
         if !is_login
@@ -24,13 +23,13 @@ new
                 USER.do_login!
                 return @song = false
 
-        if @song = @mgr.next!
+        if @song = mgr.next!
             chrome.browserAction.setTitle do
                 title: [@song.title, decodeURIComponent @song.wiki_title].join('\n')
             w.$ w .trigger 'player_next_song', [@song] for w of chrome.extension.getViews!
         @song
 
-    @play = ~>
+    @play = !~>
         @stop!
         song = getNextSong!
         return if !song
@@ -57,41 +56,35 @@ new
             U.badge '>_<', \orange
             void
         .data \begin, Date.now!
-        void
 
-    @pause = ~>
+    @pause = !~>
         if !@$audio
             return
         if @playing
             @$audio.0.pause!
         else
             @$audio.0.play!
-        void
 
-    @setVolume = (v) ~>
+    @setVolume = !(v)~>
         @$audio?.0.volume = v
-        void
-    @volumeUp = (v = 0.2) ~>
+    @volumeUp = !(v = 0.2)~>
         if !@$audio
             return
         current = @$audio.0.volume
         @$audio.0.volume = Math.min 1, current + v
-        void
-    @volumeDown = (v = 0.2) ~>
+    @volumeDown = !(v = 0.2)~>
         if !@$audio
             return
         current = @$audio.0.volume
         @$audio.0.volume = Math.max 0, current - v
-        void
-    @volumeCycle = (v = 0.2) ~>
+    @volumeCycle = !(v = 0.2)~>
         if !@$audio
             return
         v = @$audio.0.volume - v
         v = 1 if v < 0
         @$audio.0.volume = v
-        void
 
-    @skip = ~>
+    @skip = !~>
         if !@$audio
             @play!
             return
@@ -100,7 +93,6 @@ new
         @$audio?.attr do
             src:song.url
         .data \begin, Date.now!
-        void
 
     @favSong = (fav_type, del = 0)~>
         obj_id = @song.sub_id
@@ -119,7 +111,13 @@ new
                     @song.fav_sub = {fav_type, obj_id, obj_type}
         , 'json'
 
-    setTimeout ~>
+    @switchMode = !(mode, arg=[], skip = false)~>
+        mgr.switchMode mode, arg
+        @skip! if skip
+
+    @__defineGetter__ 'mode', ->mgr.mode
+
+    setTimeout !~>
         text = false
         if @playing
             tdiff = (@$audio.0.duration||@song.stream_length) - @$audio.0.currentTime

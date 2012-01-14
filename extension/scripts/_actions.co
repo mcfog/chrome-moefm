@@ -2,14 +2,15 @@ BG = chrome.extension.getBackgroundPage!
 action = do
     skip:BG.player.~skip
     stop:BG.player.~stop
+    switchMode:BG.~switchMode
     loli:->
         w.close! if w.name=='com.mcfog.chrome.mmf.loli' for w of chrome.extension.getViews!
         (w) <-! chrome.windows.getLastFocused
         with w
-            left = @left - screen.availLeft+ @width - 210
+            left = @left - screen.availLeft+ @width - 260
             top = @top - screen.availTop + 70
             window.open (chrome.extension.getURL 'pop_loli.html'), \com.mcfog.chrome.mmf.loli, 
-                "noresize=yes,width=215,height=215,top=#top,left=#left"
+                "noresize=yes,width=270,height=215,top=#top,left=#left"
     addFav:->
         BG.player.favSong 1 .success (o)->
             alert o.msg

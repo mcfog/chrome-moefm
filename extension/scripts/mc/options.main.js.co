@@ -18,5 +18,6 @@ notice = (msg)->
 $ document.body .render TPL, {options, S}
     .delegate ':input', \change, ->
         $t = $ @
-        S[$t.attr \name] = $t.val!
+        val = if $t.is(':checkbox,:radio') then !!($t.attr \checked)||'' else $t.val!
+        S[$t.attr \name] = val
         notice!

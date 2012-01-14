@@ -1,0 +1,62 @@
+@import nib
+global-reset()
+body
+	width:250px
+	height:160px
+	overflow:hidden
+
+@import _panel
+.panel
+	margin-top 10px
+	button
+		float:left
+
+.playing
+	clear:both
+	position:relative
+
+.playing .cover
+	position:absolute
+	right:0
+	bottom:2px
+	max-height:36px
+	max-width:36px
+	border-radius: 5px
+	box-shadow: 2px 2px rgba(200,200,200,0.7)
+
+
+.playing p
+	font-family:"微软雅黑",helvetica
+	overflow:hidden
+	height:1.3em
+	line-height:1.2em
+	padding:0
+	margin:0
+
+.playing a
+	text-decoration:none
+	white-space: nowrap
+
+
+.progress
+	position:absolute
+	top:-8px
+	left:-1px
+	width:100%
+	height:15px
+	border-radius:3px
+	background:#F7F7F7
+
+
+.progress>*
+	position:absolute
+	left:0
+	top:0
+	bottom:0
+
+.progress>.buffered
+	background:#DDD
+
+.progress>.played
+	background:#E00
+

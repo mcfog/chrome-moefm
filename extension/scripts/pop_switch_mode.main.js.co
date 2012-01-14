@@ -1,0 +1,15 @@
+($) <- require [\jquery \lib/jquery-ui]
+window.BG = chrome.extension.getBackgroundPage!
+w.close! if w != window && w.name==window.name for w of chrome.extension.getViews!
+
+$ window .bind \blur, ->
+    window.close!
+
+<- $
+mode = BG.player.mode
+$("\#mode_#mode").attr('checked', true)
+$(\#modes)buttonset!on 'click', 'input:radio', ->
+    mode = @id.substr 5
+    setTimeout !->
+        BG.player.switchMode mode
+    localStorage.mode = mode if mode != 'endlessEight'

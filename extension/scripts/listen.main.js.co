@@ -8,15 +8,21 @@ chrome.windows.getAll {populate:true}, !(wins)->
         for tab of win.tabs
             chrome.tabs.remove tab.id if curTab.id != tab.id && tab.url.match //^#{chrome.extension.getURL 'listen.html'}//
 
-newSong = (song)->
-    if !song
-        return
+$body = $ document.body
+$body.bind \newSong (event, song)->
     $(\.radio)render ($ \#tmpl_radio), {song}
     $(\title).text "#{song.title} @Moe.fm"
     <-!setTimeout
     $('button.fav')toggleClass 'activated', song.fav_wiki is not null
     $('button.heart')toggleClass 'activated', song.fav_sub?.fav_type == 1
     $('button.trash')toggleClass 'activated', song.fav_sub?.fav_type == 2
+
+
+newSong = (song)->
+    if !song
+        return
+    $body.trigger \newSong BG.player.song
+
 
 $ window .bind \player_next_song, (event, song)->
     newSong song
@@ -46,4 +52,4 @@ setTimeout ->
     $ '.time span' .text "-#m:#s"
 ,1000
 
-cpanel $ document.body
+cpanel $body

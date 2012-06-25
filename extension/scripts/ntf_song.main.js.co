@@ -1,14 +1,18 @@
 ($, cpanel) <- require [\jquery \moefm/cpanel \lib/jquery.sjtp.min]
 BG = chrome.extension.getBackgroundPage!
 
-newSong = (song)->
-    if !song
-        return
+$body = $ document.body
+$body.bind \newSong (event, song)->
     $('.playing')render tmpl_playing, {song}
     <-!setTimeout
     $('button.fav')toggleClass 'activated', song.fav_wiki is not null
     $('button.heart')toggleClass 'activated', song.fav_sub?.fav_type == 1
     $('button.trash')toggleClass 'activated', song.fav_sub?.fav_type == 2
+
+newSong = (song)->
+    if !song
+        return
+    $body.trigger \newSong [song]
 
 $ window .bind \player_next_song, (event, song)->
     newSong song
@@ -30,7 +34,7 @@ setTimeout ->
         $played.width ((100 * (played.end 0) / duration)toFixed 1) + \%
 ,1000
 
-cpanel $ document.body
+cpanel $body
 
 
 t = parseInt localStorage.song_notify

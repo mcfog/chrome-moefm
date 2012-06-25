@@ -12,6 +12,10 @@ new
         else
             false
     @stop = !~>
+        U.gaSendEvent \player.stop
+        _stop!
+
+    _stop = !~>
         U.badge '', \red
         @$audio?.remove!
         @$audio = null
@@ -30,7 +34,11 @@ new
         @song
 
     @play = !~>
-        @stop!
+        U.gaSendEvent \player.play
+        _play!
+
+    _play = !~>
+        _stop!
         song = getNextSong!
         return if !song
         U.badge '>_<', \yellow
@@ -48,7 +56,9 @@ new
                 log_type:'listen'
                 obj_type:'song'
                 obj_id:@song.sub_id
-            @skip!
+            _skip!
+
+            U.gaSendEvent \player.$audio.%ended
             void
         .bind \emptied, ~>
             U.badge '', \red
@@ -58,6 +68,8 @@ new
         .data \begin, Date.now!
 
     @pause = !~>
+        U.gaSendEvent \player.pause
+
         if !@$audio
             return
         if @playing
@@ -66,18 +78,26 @@ new
             @$audio.0.play!
 
     @setVolume = !(v)~>
+        U.gaSendEvent \player.setVolume v
         @$audio?.0.volume = v
+
     @volumeUp = !(v = 0.2)~>
+        U.gaSendEvent \player.volumeUp
+
         if !@$audio
             return
         current = @$audio.0.volume
         @$audio.0.volume = Math.min 1, current + v
     @volumeDown = !(v = 0.2)~>
+        U.gaSendEvent \player.volumeDown
+
         if !@$audio
             return
         current = @$audio.0.volume
         @$audio.0.volume = Math.max 0, current - v
     @volumeCycle = !(v = 0.2)~>
+        U.gaSendEvent \player.volumeCycle
+
         if !@$audio
             return
         v = @$audio.0.volume - v
@@ -85,8 +105,12 @@ new
         @$audio.0.volume = v
 
     @skip = !~>
+        U.gaSendEvent \player.skip
+        _skip!
+
+    _skip = !~>
         if !@$audio
-            @play!
+            _play!
             return
         song = getNextSong!
         return if !song
@@ -95,6 +119,8 @@ new
         .data \begin, Date.now!
 
     @favSong = (fav_type, del = 0)~>
+        U.gaSendEvent \player.favSong
+
         return if !@playing
         obj_id = @song.sub_id
         obj_type = \song
@@ -113,8 +139,10 @@ new
         , 'json'
 
     @switchMode = !(mode, arg=[], skip = false)~>
+        U.gaSendEvent \player.switchMode mode.toString!
+
         mgr.switchMode mode, arg
-        @skip! if skip
+        _skip! if skip
 
     @__defineGetter__ 'mode', ->mgr.mode
     @__defineGetter__ 'mgr', ->mgr

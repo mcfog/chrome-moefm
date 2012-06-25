@@ -1,5 +1,7 @@
-<- define []
+<- define []
+
 new
+    BG = chrome.extension.getBackgroundPage!
     colors = do
         red:[255, 0, 0, 255]
         green:[0, 255, 0, 255]
@@ -13,6 +15,10 @@ new
             r.push parseInt('0x'+k)
         r.push a||255
         r
+
+    @gaSendEvent = ->
+        BG.ga_sendEvent ...
+
     @badge = (text, clr)->
         if !(clr instanceof Array)
             clr = colors[clr] || parseColor(clr)

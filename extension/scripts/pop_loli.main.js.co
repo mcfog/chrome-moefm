@@ -2,10 +2,14 @@
 BG = chrome.extension.getBackgroundPage!
 w.close! if w != window && w.name=='com.mcfog.chrome.mmf.loli' for w of chrome.extension.getViews!
 
+$body = $ document.body
+$body.bind \newSong (event, song)->
+    $('.playing').render(tmpl_playing, {song})
+
 newSong = (song)->
     if !song
         return
-    $('.playing').render(tmpl_playing, {song})
+    $body.trigger \newSong [song]
 
 $ window .bind \player_next_song, (event, song)->
     newSong song
@@ -27,4 +31,4 @@ setTimeout ->
         $played.width ((100 * (played.end 0) / duration)toFixed 1) + \%
 ,1000
 
-cpanel $ document.body
+cpanel $body

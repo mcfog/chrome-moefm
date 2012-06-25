@@ -1,7 +1,7 @@
 ($)<- define ['jquery']
 BG = chrome.extension.getBackgroundPage!
-->
-    it.delegate 'button.next', \click, ->
+($body)->
+    $body.delegate 'button.next', \click, ->
         BG.player.skip!
     .delegate 'button.play', \click, ->
         BG.player.play!
@@ -22,7 +22,7 @@ BG = chrome.extension.getBackgroundPage!
         del = if $t.is '.activated' then 1 else 0
         BG.player.favSong fav_type, del .success (o)->
             alert o.msg
-            newSong BG.player.song
+            $body.trigger \newSong [BG.player.song]
     .delegate 'button.fav', \click ->
         $t = $ @
         fav_type = 1
@@ -40,7 +40,7 @@ BG = chrome.extension.getBackgroundPage!
                     BG.player.song.fav_wiki = null
                 else
                     BG.player.song.fav_wiki = {fav_type, obj_id, obj_type}
-                newSong BG.player.song
+                $body.trigger \newSong [BG.player.song]
             alert o.msg
         , 'json'
 

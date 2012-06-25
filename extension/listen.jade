@@ -7,6 +7,7 @@ block append head
 
 block script
   script(data-main='scripts/listen.main', src='scripts/require-jquery.js')
+  script(src='scripts/ga.js')
 
 
 block content
@@ -19,7 +20,8 @@ block content
         //-END .album-cover 
         .ml-18
           h1.pt-2.overflow.cleared(style='height: 26px;')
-            .playlist_title.left [[:song.title]]
+            .playlist_title.left
+              a(href='[[:song.sub_url]]') [[:song.title]]
             .playlist_artist.left.hide.size-14.weight-normal.gray.ml-05.mt-05.pt-005 [[:song.artist]]
           .gray.size-14.mt-1
             | 专辑

@@ -20,11 +20,14 @@ bgeval = (req, data,..., cb) ->
 
 document.documentElement.innerHTML = ' Loading...'
 
+song = location.search.match(/\bsong=\d+/);
+song = song && song.0.substr 5
+
 <- bgeval (BG)->
     BG.player.play! if !BG.player.playing
-    if data.song
+    if data.song && player.song.sub_id != data.song
         BG.player.mgr.insert data.song 
         BG.player.skip!
-, {song:(location.getParameter 'song')}
+, {song}
 
 window.location = chrome.extension.getURL('listen.html')

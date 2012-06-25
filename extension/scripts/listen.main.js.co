@@ -27,7 +27,9 @@ newSong = (song)->
 $ window .bind \player_next_song, (event, song)->
     newSong song
 
-BG.player.play! if !BG.player.playing
+setTimeout ->
+    BG.player.play! if !BG.player.playing
+,250
 newSong BG.player.song if BG.player.song
 
 setTimeout ->

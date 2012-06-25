@@ -144,6 +144,15 @@ new
         mgr.switchMode mode, arg
         _skip! if skip
 
+    @order = !(songId)->
+        U.gaSendEvent \player.order songId
+
+        mgr.order songId
+        _skip!
+
+
+
+
     @__defineGetter__ 'mode', ->mgr.mode
     @__defineGetter__ 'mgr', ->mgr
 

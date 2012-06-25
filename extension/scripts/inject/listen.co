@@ -24,10 +24,8 @@ song = location.search.match(/\bsong=\d+/);
 song = song && song.0.substr 5
 
 <- bgeval (BG)->
-    BG.player.play! if !BG.player.playing
-    if data.song && player.song.sub_id != data.song
-        BG.player.mgr.insert data.song 
-        BG.player.skip!
+    if data.song && (!player.song || player.song.sub_id != data.song)
+        BG.player.order data.song 
 , {song}
 
 window.location = chrome.extension.getURL('listen.html')

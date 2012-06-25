@@ -29,7 +29,7 @@ PLIST = new
         if list
             list
         else
-            {info:{}, playlist:[@pool[@current]]}
+            {info:{}, playlist:[@pool.playlist[@current]]}
 
 
     @Manager = class
@@ -49,14 +49,16 @@ PLIST = new
                 @current = 0
             @pool.playlist[@current]
 
-        insert: !(song, index = @current)->
+        order: (song)->
             song = fetchSong song if typeof song is not \object
-            return if !song
-            @pool.playlist = [
-                @pool.playlist.slice 0,index+1
-                [song]
-                @pool.playlist.slice index+1, @pool.playlist.length
-            ].reduce (a,b)->a.concat b
+            return false if !song
+            if @current >= 0
+                @pool = {info:{}, playlist:[@pool.playlist[@current], song]}
+                @current = 0
+            else 
+                @pool = {info:{}, playlist:[song]}
+                @current = -1
+            true
     #end class Manager
     fetchSong = (id)->
         id = parseInt id

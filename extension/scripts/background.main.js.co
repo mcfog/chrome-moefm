@@ -27,7 +27,7 @@ window <<<
             left = @left - screen.availLeft+ (@width - 375) / 2
             top = @top - screen.availTop + (@height - 130) / 2
             window.open (chrome.extension.getURL 'pop_switch_mode.html'), \com.mcfog.chrome.mmf.swich_mode, 
-                "noresize=yes,width=375,height=130,top=#top,left=#left"
+                "noresize=yes,width=380,height=130,top=#top,left=#left"
 
 player.switchMode(localStorage.mode) if localStorage.mode
 chrome.extension.onRequest.addListener (request, sender, sendResponse)->
